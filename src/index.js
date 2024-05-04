@@ -1,16 +1,7 @@
-require('dotenv').config();
-const express = require('express')
-const app = express();
+import app from "./app.js";
+import dotenv from "dotenv";
 
-// middlewares
-// Entender el formato JSON
-app.use(express.json());
-// Entender datos de formularios sin tomar en cuenta datos de imágenes
-app.use(express.urlencoded({extended: false}));
-
-// definir rutas en index.js (servidor)
-app.use(require('./routes/index'));
-
-
+// Se carga la configuración
+dotenv.config();
 app.listen(process.env.PORT);
 console.log(`Servidor escuchando en el puerto: ${process.env.PORT}`);
