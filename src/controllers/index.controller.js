@@ -1,15 +1,14 @@
-
-import pool from "../db/index.js";
+import {sequelize} from '../db/database.js';
+import {UserSchema} from '../models/Users.js';
 // Endpoints asíncronos
 const getUsers = async (req,res) => {
-    const respuesta = await pool.query('SELECT * FROM users');
-    console.log(respuesta.rows);
-    res.send(`Usuarios: ${respuesta.rows}`);
+    try {
+      const users = await UserSchema.findAll();
+      res.json(users);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
 }
 
-const editUser = (req,res) => {
-    res.send(`Usuario nro: ${req}`);
-}
-
-export {getUsers,editUser}
+export {getUsers}
 
