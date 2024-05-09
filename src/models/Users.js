@@ -36,7 +36,7 @@ export const UserSchema = sequelize.define('users',{
 })
 
 // Mapeo Objeto relacional ORM mongoose
-export const userSchemaMongo = new Schema({
+export const UserSchemaMongo = new Schema({
     created_at: {
       type: Date,
       default: Date.now
@@ -73,6 +73,31 @@ export const userSchemaMongo = new Schema({
   }, {
     timestamps: false
   });
+  //creación del modelo
+  const userModel = model('User',UserSchemaMongo)
+  // Inserción automática de datos desde sequelize
+  export const insercionAutomaticaMongo = () => {
+    UserSchema.findAll().then(sequelizeUsers => {
+      const mongoUsers = sequelizeUsers.map(sequelizeUsers => {
+        return {
+          created_at: sequelizeUsers.created_at,
+          email: sequelizeUsers.email,
+          email_verified_at: sequelizeUsers.email_verified_at,
+          id: sequelizeUsers.id,
+          name: sequelizeUsers.name,
+          password: sequelizeUsers.password,
+          remember_token: sequelizeUsers.remember_token,
+          updated_at: sequelizeUsers.updated_at
+        };
+      });
+      console.log(mongoUsers)
+      
+    })
+   .catch(err => {
+      console.error('Error al recuperar los datos de la BD relacional: ', err);
+    });
+  }
+  
 
 const mensajeSchema = new Schema({
     id_mensaje: {
@@ -91,6 +116,6 @@ const mensajeSchema = new Schema({
 })
 
 // Interactuar con la base de datos
-export const userModel = model('User',userSchemaMongo)
+export {userModel}
 export const mensajeModel = model('Mensaje',mensajeSchema)
 
