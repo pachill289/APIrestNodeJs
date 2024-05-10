@@ -17,6 +17,14 @@ const getUsers = async (req,res) => {
       res.status(500).json({ message: err.message });
     }
 }
+const createUser = async (req, res) => {
+  try {
+    const user = await UserSchema.create(req.body);
+    res.status(201).json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
-export {getUsers}
+export {getUsers,createUser}
 

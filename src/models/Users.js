@@ -77,8 +77,9 @@ export const UserSchemaMongo = new Schema({
   const userModel = model('User',UserSchemaMongo)
   // Inserción automática de datos desde sequelize
   export const insercionAutomaticaMongo = () => {
+    //Obtener todos los usuarios actuales de postgreSQL
     UserSchema.findAll().then(sequelizeUsers => {
-      const mongoUsers = sequelizeUsers.map(sequelizeUsers => {
+      const postgreUsers = sequelizeUsers.map(sequelizeUsers => {
         return {
           created_at: sequelizeUsers.created_at,
           email: sequelizeUsers.email,
@@ -90,7 +91,15 @@ export const UserSchemaMongo = new Schema({
           updated_at: sequelizeUsers.updated_at
         };
       });
-      console.log(mongoUsers)
+      //Verificar que se recuperaron todos los usuarios
+      console.log(postgreUsers)
+      //Insertar los usuarios en el documento de mongo
+      userModel.insertMany(postgreUsers).then((result) => {
+        console.log(`Inserted ${result} users`);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
       
     })
    .catch(err => {
