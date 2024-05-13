@@ -1,6 +1,6 @@
 
 import mongoose from 'mongoose';
-import {mensajeModel} from '../models/Mensaje.js';
+import {mensajeModel, messageModel} from '../models/Mensaje.js';
 // Controladores
 export const insertarMensaje = async (req, res) => {
     const { tipo, mensaje, emisor, destino } = req.body;
@@ -26,3 +26,18 @@ export const insertarMensaje = async (req, res) => {
       res.status(500).json({ error: 'Error al crear el mensaje' });
     }
   }
+
+
+  const createMessage = async (req, res) => {
+    try {
+        const { from_id, to_id, body, attachment } = req.body;
+        const message = await messageModel.create({
+            from_id, to_id, body, attachment
+        });
+        res.status(201).json(message);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+  };
+
+  export { createMessage }
