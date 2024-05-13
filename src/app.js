@@ -18,7 +18,7 @@ app.use(router);
 //pruebaConexion();
 async function main ()
 {
-    //await sequelize.sync()
+    //await sequelize.sync({alter: true})
 }
 main();
 export default app;

@@ -2,10 +2,6 @@
 import {Schema, model} from 'mongoose';
 
 const mensajeSchema = new Schema({
-    id_mensaje: {
-        type: Number,
-        required: true,
-    },
     tipo: String,
     mensaje: String,
     emisor: {
@@ -20,14 +16,14 @@ const mensajeSchema = new Schema({
     },
     created_at: {
         type: Date,
-        default: Date.now
+        default: new Date().toLocaleDateString()
     },
     updated_at: {
         type: Date,
-        default: Date.now
+        default: new Date().toLocaleDateString()
     }
 },{
-    timestamps: true
+    timestamps: false
 })
 
 export const mensajeModel = model('Mensaje',mensajeSchema)

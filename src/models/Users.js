@@ -3,40 +3,38 @@ import {sequelize} from '../db/database.js';
 import {Schema, model} from 'mongoose';
 
 // Mapeo Objeto relacional ORM sequelize
-export const UserSchema = sequelize.define('users',{
-    created_at: {
-        type: DataTypes.DATE,
-        defaultValue: sequelize.fn('NOW')
-    },
-    email: {
-        type: DataTypes.STRING
-    },
-    email_verified_at: {
-        type: DataTypes.DATE
-    },
-    id: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    name: {
-        type: DataTypes.STRING
-    },
-    password: {
-        type: DataTypes.STRING
-    },
-    remember_token: {
-        type: DataTypes.STRING
-    },
-    updated_at: {
-        type: DataTypes.DATE,
-        defaultValue: sequelize.fn('NOW'), // set default value to current timestamp
-        onUpdate: sequelize.fn('NOW')
-    }
-},
-{
-    timestamps: false, //esta opción debe estar en false ya que por defecto el ORM crea un updatedAt y createdAt en formato camel case
-})
+export const UserSchema = sequelize.define('users', {
+  created_at: {
+    type: DataTypes.DATE,
+    defaultValue: () => new Date().toLocaleDateString()
+  },
+  email: {
+    type: DataTypes.STRING(255)
+  },
+  email_verified_at: {
+    type: DataTypes.DATE
+  },
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  name: {
+    type: DataTypes.STRING(255)
+  },
+  password: {
+    type: DataTypes.STRING(255)
+  },
+  rememberToken: {
+    type: DataTypes.STRING(255)
+  },
+  updated_at: {
+    type: DataTypes.DATE,
+    defaultValue: () => new Date().toLocaleDateString()
+  }
+},{
+  timestamps: false
+});
 
 // Mapeo Objeto relacional ORM mongoose
 export const UserSchemaMongo = new Schema({
