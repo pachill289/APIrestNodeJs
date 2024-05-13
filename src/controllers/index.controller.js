@@ -3,7 +3,7 @@ import {UserSchema,insercionAutomaticaMongo,userModel} from '../models/Users.js'
 // Endpoints asíncronos
 const getUsers = async (req,res) => {
     try {
-      const usuariosMongo = insercionAutomaticaMongo();
+      insercionAutomaticaMongo();
       const users = await UserSchema.findAll();
       userModel.find()
       .then(us => {

@@ -5,7 +5,8 @@ import {Schema, model} from 'mongoose';
 // Mapeo Objeto relacional ORM sequelize
 export const UserSchema = sequelize.define('users',{
     created_at: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        defaultValue: sequelize.fn('NOW')
     },
     email: {
         type: DataTypes.STRING
@@ -28,7 +29,9 @@ export const UserSchema = sequelize.define('users',{
         type: DataTypes.STRING
     },
     updated_at: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        defaultValue: sequelize.fn('NOW'), // set default value to current timestamp
+        onUpdate: sequelize.fn('NOW')
     }
 },
 {
@@ -108,23 +111,8 @@ export const UserSchemaMongo = new Schema({
   }
   
 
-const mensajeSchema = new Schema({
-    id_mensaje: {
-        type: Number,
-        required: true,
-        
-    },
-    tipo: String,
-    mensaje: String,
-    destino: {
-        type: Number,
-        required: true
-    }
-},{
-    timestamps: true
-})
+
 
 // Interactuar con la base de datos
 export {userModel}
-export const mensajeModel = model('Mensaje',mensajeSchema)
 
