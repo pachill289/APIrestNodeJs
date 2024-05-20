@@ -40,4 +40,33 @@ export const insertarMensaje = async (req, res) => {
     }
   };
 
-  export { createMessage }
+  const getMessages = async (req, res) => {
+    try {
+      const messages = await messageModel.find();
+      res.status(200).json(messages);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
+
+  export const fetchMessages = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        const messages = await messageModel.find({
+            $or: [
+                { from_id: parseInt(userId) }, { to_id: parseInt(userId) }
+            ]
+        });
+
+        res.json(messages);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error interno del servidor');
+    }
+  };
+
+
+  
+
+  export { createMessage, getMessages }
