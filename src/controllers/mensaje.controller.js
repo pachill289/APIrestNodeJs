@@ -67,6 +67,35 @@ export const insertarMensaje = async (req, res) => {
   };
 
 
+  export const getSharedPhotos = async (req, res) => {
+    try {
+      const userId = req.params.userId;
+  
+      const messages = await messageModel.find({
+        $or: [
+          { from_id: parseInt(userId) }, 
+          { to_id: parseInt(userId) }
+        ]
+      });
+  
+      const photos = messages
+        .map(message => message.attachment)
+        .filter(attachment => {
+          try {
+            const parsedAttachment = JSON.parse(attachment);
+            return parsedAttachment && parsedAttachment.new_name;
+          } catch (error) {
+            return false;
+          }
+        })
+        .map(attachment => JSON.parse(attachment).new_name);
+  
+      res.json(photos);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error interno del servidor');
+    }
+  };
   
 
   export { createMessage, getMessages }

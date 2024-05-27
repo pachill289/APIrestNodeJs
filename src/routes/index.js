@@ -1,18 +1,18 @@
 import { Router } from "express";
-import { getUsers,createUser } from '../controllers/index.controller.js';
-import { insertarMensaje, createMessage } from '../controllers/mensaje.controller.js';
-import { getMessages, fetchMessages } from '../controllers/mensaje.controller.js';
+import { getUsers,createUser, getUserById } from '../controllers/index.controller.js';
+import { insertarMensaje, createMessage, getMessages, fetchMessages, getSharedPhotos } from '../controllers/mensaje.controller.js';
 
 const router = Router();
-// Rutas
+// Rutas Postgre
 router.get('/users/view', getUsers)
 router.post('/user/create',(req,res) => createUser(req,res));
 router.post('/mensaje/add', (req, res) => insertarMensaje(req,res));
+router.get('/user/:id', getUserById); 
 
-router.post('/messages', createMessage);
-
-router.get('/getMessages', getMessages);  // Nueva ruta
-
+//Rutas Mongo
+router.post('/message/add', createMessage);
+router.get('/getMessages', getMessages);
 router.get('/fetchMessages/:userId', fetchMessages);
+router.get('/getSharedPhotos/:userId', getSharedPhotos);
 
 export default router;
