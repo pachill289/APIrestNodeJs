@@ -76,39 +76,47 @@ export const UserSchemaMongo = new Schema({
   });
   //creación del modelo
   const userModel = model('User',UserSchemaMongo)
-  // Inserción automática de datos desde sequelize
-  export const insercionAutomaticaMongo = () => {
-    //Obtener todos los usuarios actuales de postgreSQL
-    UserSchema.findAll().then(sequelizeUsers => {
-      const postgreUsers = sequelizeUsers.map(sequelizeUsers => {
-        return {
-          created_at: sequelizeUsers.created_at,
-          email: sequelizeUsers.email,
-          email_verified_at: sequelizeUsers.email_verified_at,
-          id: sequelizeUsers.id,
-          name: sequelizeUsers.name,
-          password: sequelizeUsers.password,
-          remember_token: sequelizeUsers.remember_token,
-          updated_at: sequelizeUsers.updated_at
-        };
-      });
-      //Verificar que se recuperaron todos los usuarios
-      console.log(postgreUsers)
-      //Insertar los usuarios en el documento de mongo
-      userModel.insertMany(postgreUsers).then((result) => {
-        console.log(`Inserted ${result} users`);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-      
-    })
-   .catch(err => {
-      console.error('Error al recuperar los datos de la BD relacional: ', err);
-    });
-  }
-  
+  // Función para la inserción automática de datos desde PostgreSQL
+export const insercionAutomaticaMongo = () => {
+  // Obtener todos los usuarios actuales de PostgreSQL
+  UserSchema.findAll().then(sequelizeUsers => {
+    const postgreUsers = sequelizeUsers.map(sequelizeUser => ({
+      created_at: sequelizeUser.created_at,
+      email: sequelizeUser.email,
+      email_verified_at: sequelizeUser.email_verified_at,
+      id: sequelizeUser.id,
+      name: sequelizeUser.name,
+      password: sequelizeUser.password,
+      remember_token: sequelizeUser.remember_token,
+      updated_at: sequelizeUser.updated_at
+    }));
 
+    // Verificar que se recuperaron todos los usuarios de postgreSQL
+    console.log(postgreUsers);
+
+    // Insertar usuarios nuevos en MongoDB
+    postgreUsers.forEach(async (postgreUser) => {
+      try {
+        const usuarioExistente = await userModel.findOne({ email: postgreUser.email });
+
+        if (!usuarioExistente) {
+          await userModel.create(postgreUser);
+          console.log(`Usuario ${postgreUser.name} insertado`);
+        } else {
+          console.log(`Usuario ${postgreUser.name} ya existe`);
+        }
+      } catch (err) {
+        console.error(`Error al procesar el usuario ${postgreUser.name}:`, err);
+      }
+    });
+
+    // Cierra la conexión después de que todos los usuarios han sido procesados
+    mongoose.connection.close();
+  })
+  .catch(err => {
+    console.error('Error al recuperar los datos de la BD relacional:', err);
+  });
+};
 
 
 // Interactuar con la base de datos
