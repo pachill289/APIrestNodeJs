@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getUsers,createUser, getUserById } from '../controllers/index.controller.js';
-import { insertarMensaje, createMessage, getMessages, fetchMessages, getSharedPhotos } from '../controllers/mensaje.controller.js';
+import { insertarMensaje, createMessage, getMessages, fetchMessages, getSharedPhotos , getLastMessage} from '../controllers/mensaje.controller.js';
 import { getContacts } from '../controllers/contacts.controller.js';
 
 const router = Router();
@@ -84,5 +84,6 @@ router.get('/getMessages', getMessages);
 router.get('/fetchMessages/:userId', fetchMessages);
 router.get('/getSharedPhotos/:userId', getSharedPhotos);
 router.get('/contacts/:userId', getContacts);  // Ruta para obtener contactos
+router.get('/getLastMessage/:userId', getLastMessage);
 
 export default router;

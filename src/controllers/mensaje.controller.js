@@ -97,5 +97,22 @@ export const insertarMensaje = async (req, res) => {
     }
   };
   
+  export const getLastMessage = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        const messages = await messageModel.find({
+            $or: [
+                { from_id: parseInt(userId) },
+                { to_id: parseInt(userId) }
+            ]
+        }).sort({ created_at: -1 }).limit(1); // Ordenar por fecha de creación descendente y limitar a 1
+
+        res.json(messages);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error interno del servidor');
+    }
+  };
 
   export { createMessage, getMessages }
