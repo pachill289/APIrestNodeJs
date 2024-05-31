@@ -1,7 +1,10 @@
 import app from "./app.js";
 import dotenv from "dotenv";
 
-// Se carga la configuración
+// Cargar la configuración del archivo .env
 dotenv.config();
-app.listen(process.env.PORT);
-console.log(`Servidor escuchando en el puerto: ${process.env.PORT}`);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor escuchando en el puerto: ${PORT}`);
+});
