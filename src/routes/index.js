@@ -258,17 +258,23 @@ router.get('/contacts/:userId', getContacts);
 
 /**
  * @swagger
- * /getLastMessage/{userId}:
+ * /getLastMessage/{authUserId}/{userId}:
  *   get:
  *     tags: 
  *       - Rutas MongoDB
- *     summary: Obtiene el último mensaje de un usuario específico.
- *     description: Obtiene el último mensaje enviado por un usuario específico mediante su ID.
+ *     summary: Obtiene el último mensaje entre dos usuarios específicos.
+ *     description: Obtiene el último mensaje enviado entre dos usuarios específicos mediante sus IDs.
  *     parameters:
+ *       - name: authUserId
+ *         in: path
+ *         required: true
+ *         description: ID del usuario autenticado.
+ *         schema:
+ *           type: string
  *       - name: userId
  *         in: path
  *         required: true
- *         description: ID del usuario cuyo último mensaje se desea obtener.
+ *         description: ID del otro usuario cuyo último mensaje se desea obtener.
  *         schema:
  *           type: string
  *     responses:
@@ -279,7 +285,7 @@ router.get('/contacts/:userId', getContacts);
  *       '500':
  *         description: Error del servidor.
  */
-router.get('/getLastMessage/:userId', getLastMessage);
+router.get('/getLastMessage/:authUserId/:userId', getLastMessage);
 
 
 export default router;

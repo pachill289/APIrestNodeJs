@@ -103,13 +103,14 @@ export const insertarMensaje = async (req, res) => {
   export const getLastMessage = async (req, res) => {
     try {
         const userId = req.params.userId;
+        const authUserId = req.params.authUserId; // Assuming authUserId is passed in the URL
 
         const messages = await messageModel.find({
             $or: [
-                { from_id: parseInt(userId) },
-                { to_id: parseInt(userId) }
+                { from_id: authUserId, to_id: userId },
+                { from_id: userId, to_id: authUserId }
             ]
-        }).sort({ created_at: -1 }).limit(1); // Ordenar por fecha de creación descendente y limitar a 1
+        }).sort({ created_at: -1 }).limit(1);
 
         res.json(messages);
     } catch (err) {
@@ -117,5 +118,6 @@ export const insertarMensaje = async (req, res) => {
         res.status(500).send('Error interno del servidor');
     }
   };
+
 
   export { createMessage, getMessages }
