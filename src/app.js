@@ -16,6 +16,10 @@ app.get('/', (req, res) => {
     res.send('Web API NodeJs ver 1.1');
 });
 
+app.get('/health', (req, res) => {
+    res.send('El servicio es saludable')
+});
+
 // Definir rutas
 app.use(router);
 
