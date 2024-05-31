@@ -51,11 +51,13 @@ export const insertarMensaje = async (req, res) => {
 
   export const fetchMessages = async (req, res) => {
     try {
-        const userId = req.params.userId;
+        const authUserId = parseInt(req.params.authUserId);
+        const userId = parseInt(req.params.userId);
 
         const messages = await messageModel.find({
             $or: [
-                { from_id: parseInt(userId) }, { to_id: parseInt(userId) }
+                { from_id: authUserId, to_id: userId },
+                { from_id: userId, to_id: authUserId }
             ]
         });
 
@@ -65,6 +67,7 @@ export const insertarMensaje = async (req, res) => {
         res.status(500).send('Error interno del servidor');
     }
   };
+
 
 
   export const getSharedPhotos = async (req, res) => {

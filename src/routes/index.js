@@ -175,17 +175,23 @@ router.get('/getMessages', getMessages);
 
 /**
  * @swagger
- * /fetchMessages/{userId}:
+ * /fetchMessages/{authUserId}/{userId}:
  *   get:
  *     tags: 
  *       - Rutas MongoDB
- *     summary: Obtiene los mensajes de un usuario específico.
- *     description: Obtiene los mensajes enviados por un usuario específico mediante su ID.
+ *     summary: Obtiene los mensajes entre dos usuarios específicos.
+ *     description: Obtiene los mensajes enviados entre dos usuarios específicos mediante sus IDs.
  *     parameters:
+ *       - name: authUserId
+ *         in: path
+ *         required: true
+ *         description: ID del usuario autenticado.
+ *         schema:
+ *           type: string
  *       - name: userId
  *         in: path
  *         required: true
- *         description: ID del usuario cuyos mensajes se desean obtener.
+ *         description: ID del otro usuario cuyos mensajes se desean obtener.
  *         schema:
  *           type: string
  *     responses:
@@ -196,7 +202,9 @@ router.get('/getMessages', getMessages);
  *       '500':
  *         description: Error del servidor.
  */
-router.get('/fetchMessages/:userId', fetchMessages);
+router.get('/fetchMessages/:authUserId/:userId', fetchMessages);
+
+
 
 /**
  * @swagger
