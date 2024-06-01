@@ -5,7 +5,7 @@
       "title": "API Documentation",
       "description": "API Documentation for the project."
     },
-    "host": "localhost:3000",
+    "host": "https://apirestnodejs-jev4.onrender.com/",
     "basePath": "/",
     "tags": [
       {
@@ -232,7 +232,7 @@
           }
         }
       },
-      "/contacts/{userId}": {
+      "/getContacts/{userId}": {
         "get": {
           "tags": ["Rutas MongoDB"],
           "summary": "Obtiene los contactos de un usuario específico.",

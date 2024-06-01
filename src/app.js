@@ -1,11 +1,21 @@
 import express from "express";
 import swaggerUi from 'swagger-ui-express';
 import specs from './swaggerConfig.js';
+import cors from 'cors';
 import {pruebaConexion, sequelize, mongoDB} from './db/database.js';
 import router from './routes/index.js';
 import './models/Users.js';
 
 const app = express();
+
+// Configuración de CORS
+const corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200,
+  };
+  
+  // Middleware para habilitar CORS con las opciones definidas
+  app.use(cors(corsOptions));
 
 // Middlewares
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));

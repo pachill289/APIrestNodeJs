@@ -233,7 +233,7 @@ router.get('/getSharedPhotos/:userId', getSharedPhotos);
 
 /**
  * @swagger
- * /contacts/{userId}:
+ * /getContacts/{userId}:
  *   get:
  *     tags: 
  *       - Rutas MongoDB
@@ -254,7 +254,7 @@ router.get('/getSharedPhotos/:userId', getSharedPhotos);
  *       '500':
  *         description: Error del servidor.
  */
-router.get('/contacts/:userId', getContacts);
+router.get('/getContacts/:userId', getContacts);
 
 /**
  * @swagger
