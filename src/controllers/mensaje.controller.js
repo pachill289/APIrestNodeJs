@@ -42,7 +42,7 @@ export const insertarMensaje = async (req, res) => {
 
   const getMessages = async (req, res) => {
     try {
-      const messages = await messageModel.find();
+      const messages = await messageModel.find().sort({ created_at: -1 });
       res.status(200).json(messages);
     } catch (err) {
       res.status(500).json({ message: err.message });
@@ -103,7 +103,7 @@ export const insertarMensaje = async (req, res) => {
   export const getLastMessage = async (req, res) => {
     try {
         const userId = req.params.userId;
-        const authUserId = req.params.authUserId; // Assuming authUserId is passed in the URL
+        const authUserId = req.params.authUserId;
 
         const messages = await messageModel.find({
             $or: [
@@ -119,5 +119,26 @@ export const insertarMensaje = async (req, res) => {
     }
   };
 
+  export const countUnseenMessages = async (req, res) => {
+    try {
+        const { authUserId, contactUserId } = req.params;
+
+        console.log(`Counting unseen messages from ${contactUserId} to ${authUserId}`);
+
+        // Contar mensajes no vistos enviados por el contacto al usuario autenticado
+        const unseenMessagesCount = await messageModel.countDocuments({
+            from_id: contactUserId,
+            to_id: authUserId,
+            seen: false
+        });
+
+        console.log(`Unseen messages count: ${unseenMessagesCount}`);
+
+        res.json({ unseenMessagesCount });
+    } catch (error) {
+        console.error('Error counting unseen messages:', error);
+        res.status(500).json({ error: error.message });
+    }
+  };
 
   export { createMessage, getMessages }

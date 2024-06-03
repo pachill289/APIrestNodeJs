@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getUsers,createUser, getUserById } from '../controllers/index.controller.js';
-import { insertarMensaje, createMessage, getMessages, fetchMessages, getSharedPhotos , getLastMessage} from '../controllers/mensaje.controller.js';
+import { insertarMensaje, createMessage, getMessages, fetchMessages, getSharedPhotos , getLastMessage, countUnseenMessages } from '../controllers/mensaje.controller.js';
 import { getContacts } from '../controllers/contacts.controller.js';
 
 const router = Router();
@@ -286,6 +286,45 @@ router.get('/getContacts/:userId', getContacts);
  *         description: Error del servidor.
  */
 router.get('/getLastMessage/:authUserId/:userId', getLastMessage);
+
+/**
+ * @swagger
+ * /countUnseenMessages/{authUserId}/{contactUserId}:
+ *   get:
+ *     tags: 
+ *       - Rutas MongoDB
+ *     summary: Cuenta los mensajes no vistos entre dos usuarios específicos.
+ *     description: Obtiene la cantidad de mensajes no vistos enviados por un usuario específico al usuario autenticado.
+ *     parameters:
+ *       - name: authUserId
+ *         in: path
+ *         required: true
+ *         description: ID del usuario autenticado.
+ *         schema:
+ *           type: string
+ *       - name: contactUserId
+ *         in: path
+ *         required: true
+ *         description: ID del contacto cuyos mensajes no vistos se desean contar.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Cantidad de mensajes no vistos obtenida exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 unseenMessagesCount:
+ *                   type: integer
+ *                   example: 5
+ *       '404':
+ *         description: Usuario no encontrado.
+ *       '500':
+ *         description: Error del servidor.
+ */
+router.get('/countUnseenMessages/:authUserId/:contactUserId', countUnseenMessages);
 
 
 export default router;
