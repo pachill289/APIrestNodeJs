@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getUsers,createUser, getUserById } from '../controllers/index.controller.js';
-import { insertarMensaje, createMessage, getMessages, fetchMessages, getSharedPhotos , getLastMessage, countUnseenMessages } from '../controllers/mensaje.controller.js';
+import { insertarMensaje, createMessage, getMessages, fetchMessages, getSharedPhotos , getLastMessage, countUnseenMessages, makeSeen } from '../controllers/mensaje.controller.js';
 import { getContacts } from '../controllers/contacts.controller.js';
 
 const router = Router();
@@ -326,5 +326,33 @@ router.get('/getLastMessage/:authUserId/:userId', getLastMessage);
  */
 router.get('/countUnseenMessages/:authUserId/:contactUserId', countUnseenMessages);
 
+/**
+ * @swagger
+ * /messages/{authUserId}/{userId}/seen:
+ *   put:
+ *     tags: 
+ *       - Rutas MongoDB
+ *     summary: Marca los mensajes como vistos.
+ *     description: Marca todos los mensajes no vistos del usuario con el ID dado como vistos.
+ *     parameters:
+ *       - in: path
+ *         name: authUserId
+ *         description: ID del usuario autenticado.
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: userId
+ *         description: ID del usuario cuyos mensajes se marcarán como vistos.
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Mensajes marcados como vistos correctamente.
+ *       500:
+ *         description: Error al marcar los mensajes como vistos.
+ */
+router.put('/messages/:authUserId/:userId/seen', makeSeen);
 
 export default router;

@@ -141,4 +141,28 @@ export const insertarMensaje = async (req, res) => {
     }
   };
 
-  export { createMessage, getMessages }
+  // En el controlador de mensajes
+  const makeSeen = async (req, res) => {
+    const authUserId = req.params.authUserId;
+    const userId = req.params.userId;
+    try {
+        // Marcar todos los mensajes no vistos del usuario con el ID dado como vistos
+        await messageModel.updateMany({
+            from_id: parseInt(userId),
+            to_id: parseInt(authUserId),
+            seen: false
+        }, {
+            $set: {
+                seen: true
+            }
+        });
+  
+        // Envía una respuesta
+        res.status(200).json({ status: 1 });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error al marcar los mensajes como vistos' });
+    }
+  };  
+
+  export { createMessage, getMessages, makeSeen }
