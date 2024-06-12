@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUsers,createUser, getUserById } from '../controllers/index.controller.js';
+import { getUsers,getUsersMongo,createUser, getUserById } from '../controllers/index.controller.js';
 import { insertarMensaje ,createMessage, getMessages, fetchMessages, getSharedPhotos , getLastMessage, countUnseenMessages, makeSeen, deleteMessage } from '../controllers/mensaje.controller.js';
 import { getContacts } from '../controllers/contacts.controller.js';
 import { getComunidades, insertarComunidad } from '../controllers/comunidad.controller.js';
@@ -28,6 +28,30 @@ const router = Router();
  *         description: Error del servidor. Ocurrió un error al intentar obtener la lista de usuarios.
  */
 router.get('/users/view', getUsers);
+
+// Ruta MongoDB
+/**
+ * @swagger
+ * tags:
+ *   name: Rutas MongoDB
+ *   description: Rutas relacionadas con MongoDB.
+ */
+
+/**
+ * @swagger
+ * /users/view:
+ *   get:
+ *     tags: 
+ *       - Rutas MongoDB
+ *     summary: Obtiene la lista de usuarios.
+ *     description: Obtiene la lista de todos los usuarios registrados.
+ *     responses:
+ *       '200':
+ *         description: Respuesta exitosa. Devuelve la lista de usuarios.
+ *       '500':
+ *         description: Error del servidor. Ocurrió un error al intentar obtener la lista de usuarios.
+ */
+router.get('/users/mongo/view', getUsersMongo);
 
 /**
  * @swagger

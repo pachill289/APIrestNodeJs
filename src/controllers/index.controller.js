@@ -17,6 +17,16 @@ const getUsers = async (req,res) => {
       res.status(500).json({ message: err.message });
     }
 }
+
+const getUsersMongo = async (req, res) => {
+  try {
+    const users = await userModel.find().sort({ created_at: -1 });
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 const createUser = async (req, res) => {
   try {
     const user = await UserSchema.create(req.body);
@@ -39,5 +49,5 @@ const getUserById = async (req, res) => {
   }
 };
 
-export {getUsers,createUser, getUserById}
+export {getUsers,getUsersMongo,createUser, getUserById}
 
