@@ -493,7 +493,7 @@
           }
         }
       },
-      "/messages/{authUserId}/{userId}/seen": {
+      "/makeSeen/{authUserId}/{userId}/seen": {
         "put": {
           "tags": ["Rutas MongoDB"],
           "summary": "Marca los mensajes como vistos",
@@ -528,7 +528,7 @@
           }
         }
       },
-      "/messages/{messageId}": {
+      "/deleteMessage/{messageId}": {
         "delete": {
           "tags": ["Rutas MongoDB"],
           "summary": "Elimina un mensaje por su ID",
