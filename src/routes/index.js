@@ -242,9 +242,9 @@ router.get('/user/:id', getUserById);
  *             type: object
  *             properties:
  *               from_id:
- *                 type: string
+ *                 type: integer
  *               to_id:
- *                 type: string
+ *                 type: integer
  *               body:
  *                 type: string
  *               attachment:
