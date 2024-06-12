@@ -1,297 +1,368 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "version": "1.0.0",
-      "title": "API Documentation",
-      "description": "API Documentation for the project."
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API Documentation",
+    "description": "API para la gestión de usuarios y mensajes"
+  },
+  "host": "https://apirestnodejs-jev4.onrender.com/",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Rutas PostgreSQL",
+      "description": "Rutas relacionadas con PostgreSQL."
     },
-    "host": "https://apirestnodejs-jev4.onrender.com/",
-    "basePath": "/",
-    "tags": [
-      {
-        "name": "Rutas PostgreSQL",
-        "description": "Rutas relacionadas con PostgreSQL."
-      },
-      {
-        "name": "Rutas MongoDB",
-        "description": "Rutas relacionadas con MongoDB."
-      }
-    ],
-    "paths": {
-      "/users/view": {
-        "get": {
-          "tags": ["Rutas PostgreSQL"],
-          "summary": "Obtiene la lista de usuarios.",
-          "description": "Obtiene la lista de todos los usuarios registrados.",
-          "responses": {
-            "200": {
-              "description": "Respuesta exitosa. Devuelve la lista de usuarios."
-            },
-            "500": {
-              "description": "Error del servidor. Ocurrió un error al intentar obtener la lista de usuarios."
-            }
+    {
+      "name": "Rutas MongoDB",
+      "description": "Rutas relacionadas con MongoDB."
+    }
+  ],
+  "paths": {
+    "/users/view": {
+      "get": {
+        "tags": [
+          "Rutas PostgreSQL",
+          "Rutas MongoDB"
+        ],
+        "summary": "Obtiene la lista de usuarios.",
+        "description": "Obtiene la lista de todos los usuarios registrados.",
+        "responses": {
+          "200": {
+            "description": "Respuesta exitosa. Devuelve la lista de usuarios."
+          },
+          "500": {
+            "description": "Error del servidor. Ocurrió un error al intentar obtener la lista de usuarios."
           }
         }
-      },
-      "/user/create": {
-        "post": {
-          "tags": ["Rutas PostgreSQL"],
-          "summary": "Crea un nuevo usuario.",
-          "description": "Crea un nuevo usuario con los datos proporcionados en el cuerpo de la solicitud.",
-          "parameters": [
-            {
-              "name": "body",
-              "in": "body",
-              "description": "Datos del nuevo usuario.",
-              "required": true,
+      }
+    },
+    "/users/mongo/view": {
+      "get": {
+        "tags": [
+          "Rutas MongoDB"
+        ],
+        "summary": "Obtiene la lista de usuarios.",
+        "description": "Obtiene la lista de todos los usuarios registrados.",
+        "responses": {
+          "200": {
+            "description": "Respuesta exitosa. Devuelve la lista de usuarios."
+          },
+          "500": {
+            "description": "Error del servidor. Ocurrió un error al intentar obtener la lista de usuarios."
+          }
+        }
+      }
+    },
+    "/user/create": {
+      "post": {
+        "tags": [
+          "Rutas PostgreSQL"
+        ],
+        "summary": "Crea un nuevo usuario.",
+        "description": "Crea un nuevo usuario con los datos proporcionados en el cuerpo de la solicitud.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos del nuevo usuario.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Usuario creado exitosamente."
+          },
+          "500": {
+            "description": "Error del servidor."
+          }
+        }
+      }
+    },
+    "/mensaje/add": {
+      "post": {
+        "tags": [
+          "Rutas PostgreSQL"
+        ],
+        "summary": "Inserta un nuevo mensaje.",
+        "description": "Inserta un nuevo mensaje con los datos proporcionados en el cuerpo de la solicitud.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": { "type": "string" },
-                  "email": { "type": "string" },
-                  "password": { "type": "string" }
+                  "from_id": {
+                    "type": "string"
+                  },
+                  "to_id": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "string"
+                  },
+                  "attachment": {
+                    "type": "string"
+                  }
                 }
               }
             }
-          ],
-          "responses": {
-            "201": {
-              "description": "Usuario creado exitosamente."
-            },
-            "500": {
-              "description": "Error del servidor."
-            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Mensaje insertado exitosamente."
+          },
+          "400": {
+            "description": "Solicitud incorrecta. Verifique los datos proporcionados."
+          },
+          "500": {
+            "description": "Error del servidor."
           }
         }
-      },
-      "/mensaje/add": {
-        "post": {
-          "tags": ["Rutas PostgreSQL"],
-          "summary": "Inserta un nuevo mensaje.",
-          "description": "Inserta un nuevo mensaje con los datos proporcionados en el cuerpo de la solicitud.",
-          "requestBody": {
-            "required": true,
+      }
+    },
+    "/community/view": {
+      "get": {
+        "tags": [
+          "Rutas MongoDB"
+        ],
+        "summary": "Obtiene todas las comunidades.",
+        "description": "Retorna una lista de todas las comunidades existentes.",
+        "responses": {
+          "200": {
+            "description": "Lista de comunidades obtenida exitosamente.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "from_id": { "type": "string" },
-                    "to_id": { "type": "string" },
-                    "body": { "type": "string" },
-                    "attachment": { "type": "string" }
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "max_number_users": {
+                        "type": "number"
+                      },
+                      "type_community": {
+                        "type": "string"
+                      },
+                      "users": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
                   }
                 }
               }
             }
           },
-          "responses": {
-            "201": {
-              "description": "Mensaje insertado exitosamente."
-            },
-            "400": {
-              "description": "Solicitud incorrecta. Verifique los datos proporcionados."
-            },
-            "500": {
-              "description": "Error del servidor."
-            }
+          "500": {
+            "description": "Error del servidor."
           }
         }
-      },
-      "/user/{id}": {
-        "get": {
-          "tags": ["Rutas PostgreSQL"],
-          "summary": "Obtiene un usuario por ID.",
-          "description": "Obtiene los datos de un usuario específico mediante su ID.",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "description": "ID del usuario que se desea obtener.",
-              "schema": { "type": "string" }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Datos del usuario obtenidos exitosamente."
-            },
-            "404": {
-              "description": "Usuario no encontrado."
-            },
-            "500": {
-              "description": "Error del servidor."
-            }
-          }
-        }
-      },
-      "/message/add": {
-        "post": {
-          "tags": ["Rutas MongoDB"],
-          "summary": "Crea un nuevo mensaje.",
-          "description": "Crea un nuevo mensaje con los datos proporcionados en el cuerpo de la solicitud.",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "from_id": { "type": "string" },
-                    "to_id": { "type": "string" },
-                    "body": { "type": "string" },
-                    "attachment": { "type": "string" }
+      }
+    },
+    "/community/add": {
+      "post": {
+        "tags": [
+          "Rutas MongoDB"
+        ],
+        "summary": "Crea una nueva comunidad.",
+        "description": "Crea una nueva comunidad con los datos proporcionados en el cuerpo de la solicitud.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "max_number_users": {
+                    "type": "number"
+                  },
+                  "type_community": {
+                    "type": "string"
+                  },
+                  "users": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   }
                 }
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Comunidad creada exitosamente."
           },
-          "responses": {
-            "201": {
-              "description": "Mensaje creado exitosamente."
-            },
-            "500": {
-              "description": "Error del servidor."
-            }
+          "400": {
+            "description": "Solicitud incorrecta. Verifique los datos proporcionados."
+          },
+          "500": {
+            "description": "Error del servidor."
           }
         }
-      },
-      "/getMessages": {
-        "get": {
-          "tags": ["Rutas MongoDB"],
-          "summary": "Obtiene todos los mensajes.",
-          "description": "Obtiene la lista de todos los mensajes.",
-          "responses": {
-            "200": {
-              "description": "Lista de mensajes obtenida exitosamente."
-            },
-            "500": {
-              "description": "Error del servidor."
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "tags": [
+          "Rutas PostgreSQL"
+        ],
+        "summary": "Obtiene un usuario por ID.",
+        "description": "Obtiene los datos de un usuario específico mediante su ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID del usuario que se desea obtener.",
+            "schema": {
+              "type": "string"
             }
           }
-        }
-      },
-      "/fetchMessages/{authUserId}/{userId}": {
-        "get": {
-          "tags": ["Rutas MongoDB"],
-          "summary": "Obtiene los mensajes entre dos usuarios específicos.",
-          "description": "Obtiene los mensajes enviados entre dos usuarios específicos mediante sus IDs.",
-          "parameters": [
-            {
-              "name": "authUserId",
-              "in": "path",
-              "required": true,
-              "description": "ID del usuario autenticado.",
-              "schema": { "type": "string" }
-            },
-            {
-              "name": "userId",
-              "in": "path",
-              "required": true,
-              "description": "ID del otro usuario cuyos mensajes se desean obtener.",
-              "schema": { "type": "string" }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Lista de mensajes obtenida exitosamente."
-            },
-            "404": {
-              "description": "Usuario no encontrado."
-            },
-            "500": {
-              "description": "Error del servidor."
-            }
+        ],
+        "responses": {
+          "200": {
+            "description": "Datos del usuario obtenidos exitosamente."
+          },
+          "404": {
+            "description": "Usuario no encontrado."
+          },
+          "500": {
+            "description": "Error del servidor."
           }
         }
-      },
-      "/getSharedPhotos/{userId}": {
-        "get": {
-          "tags": ["Rutas MongoDB"],
-          "summary": "Obtiene las fotos compartidas por un usuario específico.",
-          "description": "Obtiene las fotos compartidas por un usuario específico mediante su ID.",
-          "parameters": [
-            {
-              "name": "userId",
-              "in": "path",
-              "required": true,
-              "description": "ID del usuario cuyas fotos compartidas se desean obtener.",
-              "schema": { "type": "string" }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Fotos obtenidas exitosamente."
-            },
-            "404": {
-              "description": "Usuario no encontrado."
-            },
-            "500": {
-              "description": "Error del servidor."
-            }
-          }
-        }
-      },
-      "/getContacts/{userId}": {
-        "get": {
-          "tags": ["Rutas MongoDB"],
-          "summary": "Obtiene los contactos de un usuario específico.",
-          "description": "Obtiene la lista de contactos de un usuario específico mediante su ID.",
-          "parameters": [
-            {
-              "name": "userId",
-              "in": "path",
-              "required": true,
-              "description": "ID del usuario cuyos contactos se desean obtener.",
-              "schema": { "type": "string" }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Lista de contactos obtenida exitosamente."
-            },
-            "404": {
-              "description": "Usuario no encontrado."
-            },
-            "500": {
-              "description": "Error del servidor."
+      }
+    },
+    "/message/add": {
+      "post": {
+        "tags": [
+          "Rutas MongoDB"
+        ],
+        "summary": "Crea un nuevo mensaje.",
+        "description": "Crea un nuevo mensaje con los datos proporcionados en el cuerpo de la solicitud.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "from_id": {
+                    "type": "integer"
+                  },
+                  "to_id": {
+                    "type": "integer"
+                  },
+                  "body": {
+                    "type": "string"
+                  },
+                  "attachment": {
+                    "type": "string"
+                  }
+                }
+              }
             }
           }
+        },
+        "responses": {
+          "201": {
+            "description": "Mensaje creado exitosamente."
+          },
+          "500": {
+            "description": "Error del servidor."
+          }
         }
-      },
-      "/getLastMessage/{authUserId}/{userId}": {
-        "get": {
-          "tags": ["Rutas MongoDB"],
-          "summary": "Obtiene el último mensaje entre dos usuarios específicos.",
-          "description": "Obtiene el último mensaje enviado entre dos usuarios específicos mediante sus IDs.",
-          "parameters": [
-            {
-              "name": "authUserId",
-              "in": "path",
-              "required": true,
-              "description": "ID del usuario autenticado.",
-              "schema": { "type": "string" }
-            },
-            {
-              "name": "userId",
-              "in": "path",
-              "required": true,
-              "description": "ID del otro usuario cuyo último mensaje se desea obtener.",
-              "schema": { "type": "string" }
+      }
+    },
+    "/getMessages": {
+      "get": {
+        "tags": [
+          "Rutas MongoDB"
+        ],
+        "summary": "Obtiene todos los mensajes.",
+        "description": "Obtiene la lista de todos los mensajes.",
+        "responses": {
+          "200": {
+            "description": "Lista de mensajes obtenida exitosamente."
+          },
+          "500": {
+            "description": "Error del servidor."
+          }
+        }
+      }
+    },
+    "/fetchMessages/{authUserId}/{userId}": {
+      "get": {
+        "tags": [
+          "Rutas MongoDB"
+        ],
+        "summary": "Obtiene los mensajes entre dos usuarios específicos.",
+        "description": "Obtiene los mensajes enviados entre dos usuarios específicos mediante sus IDs.",
+        "parameters": [
+          {
+            "name": "authUserId",
+            "in": "path",
+            "required": true,
+            "description": "ID del usuario autenticado.",
+            "schema": {
+              "type": "string"
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "Último mensaje obtenido exitosamente."
-            },
-            "404": {
-              "description": "Usuario no encontrado."
-            },
-            "500": {
-              "description": "Error del servidor."
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "ID del otro usuario cuyos mensajes se desean obtener.",
+            "schema": {
+              "type": "string"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de mensajes obtenida exitosamente."
+          },
+          "500": {
+            "description": "Error del servidor."
           }
         }
       }
     }
   }
+}
