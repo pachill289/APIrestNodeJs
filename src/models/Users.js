@@ -19,7 +19,13 @@ export const UserSchema = sequelize.define('users', {
     primaryKey: true,
     autoIncrement: true
   },
+  username: {
+    type: DataTypes.STRING(255)
+  },
   name: {
+    type: DataTypes.STRING(255)
+  },
+  lastname: {
     type: DataTypes.STRING(255)
   },
   password: {
@@ -56,7 +62,16 @@ export const UserSchemaMongo = new Schema({
       unique: true,
       auto: true
     },
+    user_name: {
+      type: String,
+      required: true
+    },
     name: {
+      type: String,
+      required: true
+    },
+    lastname:
+    {
       type: String,
       required: true
     },
@@ -85,7 +100,9 @@ export const insercionAutomaticaMongo = () => {
       email: sequelizeUser.email,
       email_verified_at: sequelizeUser.email_verified_at,
       id: sequelizeUser.id,
+      user_name: sequelizeUser.username,
       name: sequelizeUser.name,
+      lastname: sequelizeUser.lastname,
       password: sequelizeUser.password,
       remember_token: sequelizeUser.remember_token,
       updated_at: sequelizeUser.updated_at

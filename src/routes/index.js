@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { getUsers,createUser, getUserById } from '../controllers/index.controller.js';
-import { insertarMensaje, createMessage, getMessages, fetchMessages, getSharedPhotos , getLastMessage, countUnseenMessages, makeSeen, deleteMessage } from '../controllers/mensaje.controller.js';
+import { insertarMensaje ,createMessage, getMessages, fetchMessages, getSharedPhotos , getLastMessage, countUnseenMessages, makeSeen, deleteMessage } from '../controllers/mensaje.controller.js';
 import { getContacts } from '../controllers/contacts.controller.js';
+import { getComunidades, insertarComunidad } from '../controllers/comunidad.controller.js';
 
 const router = Router();
 // Rutas Postgre
@@ -91,6 +92,81 @@ router.post('/user/create',(req,res) => createUser(req,res));
  */
 router.post('/mensaje/add', (req, res) => insertarMensaje(req, res));
 
+/**
+ * @swagger
+ * /community/all:
+ *   get:
+ *     tags: 
+ *       - Rutas MongoDB
+ *     summary: Obtiene todas las comunidades.
+ *     description: Retorna una lista de todas las comunidades existentes.
+ *     responses:
+ *       '200':
+ *         description: Lista de comunidades obtenida exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   name:
+ *                     type: string
+ *                   max_number_users:
+ *                     type: number
+ *                   type_community:
+ *                     type: string
+ *                   users:
+ *                     type: array
+ *                     items:
+ *                       type: string
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
+ *                   updated_at:
+ *                     type: string
+ *                     format: date-time
+ *       '500':
+ *         description: Error del servidor.
+ */
+router.get('/community/view', getComunidades);
+
+/**
+ * @swagger
+ * /community/create:
+ *   post:
+ *     tags: 
+ *       - Rutas MongoDB
+ *     summary: Crea una nueva comunidad.
+ *     description: Crea una nueva comunidad con los datos proporcionados en el cuerpo de la solicitud.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               max_number_users:
+ *                 type: number
+ *               type_community:
+ *                 type: string
+ *               users:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *     responses:
+ *       '201':
+ *         description: Comunidad creada exitosamente.
+ *       '400':
+ *         description: Solicitud incorrecta. Verifique los datos proporcionados.
+ *       '500':
+ *         description: Error del servidor.
+ */
+router.post('/community/add', (req, res) => insertarComunidad(req, res));
 /**
  * @swagger
  * /user/{id}:

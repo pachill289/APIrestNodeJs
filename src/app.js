@@ -35,7 +35,7 @@ app.use(router);
 
 // Conexión a la base de datos
 async function main() {
-    // await sequelize.sync({alter: true});
+    //await sequelize.sync({alter: true});
 }
 main();
 
