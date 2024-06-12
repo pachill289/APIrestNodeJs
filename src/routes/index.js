@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getUsers,createUser, getUserById } from '../controllers/index.controller.js';
-import { insertarMensaje, createMessage, getMessages, fetchMessages, getSharedPhotos , getLastMessage, countUnseenMessages, makeSeen } from '../controllers/mensaje.controller.js';
+import { insertarMensaje, createMessage, getMessages, fetchMessages, getSharedPhotos , getLastMessage, countUnseenMessages, makeSeen, deleteMessage } from '../controllers/mensaje.controller.js';
 import { getContacts } from '../controllers/contacts.controller.js';
 
 const router = Router();
@@ -354,5 +354,30 @@ router.get('/countUnseenMessages/:authUserId/:contactUserId', countUnseenMessage
  *         description: Error al marcar los mensajes como vistos.
  */
 router.put('/messages/:authUserId/:userId/seen', makeSeen);
+
+/**
+ * @swagger
+ * /messages/{messageId}:
+ *   delete:
+ *     tags: 
+ *       - Rutas MongoDB
+ *     summary: Elimina un mensaje por su ID.
+ *     description: Elimina el mensaje con el ID dado.
+ *     parameters:
+ *       - in: path
+ *         name: messageId
+ *         description: ID del mensaje a eliminar.
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Mensaje eliminado correctamente.
+ *       404:
+ *         description: Mensaje no encontrado.
+ *       500:
+ *         description: Error al eliminar el mensaje.
+ */
+router.delete('/messages/:messageId', deleteMessage);
 
 export default router;

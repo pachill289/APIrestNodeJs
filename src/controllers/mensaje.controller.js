@@ -165,4 +165,19 @@ export const insertarMensaje = async (req, res) => {
     }
   };  
 
+  export const deleteMessage = async (req, res) => {
+    const messageId = req.params.messageId;
+
+    try {
+        const message = await messageModel.findByIdAndDelete(messageId);
+        if (!message) {
+            return res.status(404).json({ message: 'Mensaje no encontrado' });
+        }
+        res.status(200).json({ message: 'Mensaje eliminado exitosamente' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error al eliminar el mensaje' });
+    }
+};
+
   export { createMessage, getMessages, makeSeen }
