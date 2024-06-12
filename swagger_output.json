@@ -3,13 +3,20 @@
   "info": {
     "version": "1.0.0",
     "title": "REST API",
-    "description": ""
+    "description": "API Documentation for the project."
   },
   "host": "https://apirestnodejs-jev4.onrender.com/",
   "basePath": "/",
-  "schemes": [
-    "http"
-  ],
+  "tags": [
+      {
+        "name": "Rutas PostgreSQL",
+        "description": "Rutas relacionadas con PostgreSQL."
+      },
+      {
+        "name": "Rutas MongoDB",
+        "description": "Rutas relacionadas con MongoDB."
+      }
+    ],
   "paths": {
     "/users/view": {
       "get": {
@@ -337,7 +344,7 @@
         }
       }
     },
-    "/messages/{authUserId}/{userId}/seen": {
+    "/makeSeen/{authUserId}/{userId}/seen": {
       "put": {
         "description": "",
         "parameters": [
@@ -364,7 +371,7 @@
         }
       }
     },
-    "/messages/{messageId}": {
+    "/deleteMessage/{messageId}": {
       "delete": {
         "description": "",
         "parameters": [

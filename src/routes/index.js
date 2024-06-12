@@ -428,7 +428,7 @@ router.get('/countUnseenMessages/:authUserId/:contactUserId', countUnseenMessage
 
 /**
  * @swagger
- * /messages/{authUserId}/{userId}/seen:
+ * /makeSeen/{authUserId}/{userId}/seen:
  *   put:
  *     tags: 
  *       - Rutas MongoDB
@@ -453,11 +453,11 @@ router.get('/countUnseenMessages/:authUserId/:contactUserId', countUnseenMessage
  *       500:
  *         description: Error al marcar los mensajes como vistos.
  */
-router.put('/messages/:authUserId/:userId/seen', makeSeen);
+router.put('/makeSeen/:authUserId/:userId/seen', makeSeen);
 
 /**
  * @swagger
- * /messages/{messageId}:
+ * /deleteMessage/{messageId}:
  *   delete:
  *     tags: 
  *       - Rutas MongoDB
@@ -478,6 +478,6 @@ router.put('/messages/:authUserId/:userId/seen', makeSeen);
  *       500:
  *         description: Error al eliminar el mensaje.
  */
-router.delete('/messages/:messageId', deleteMessage);
+router.delete('/deleteMessage/:messageId', deleteMessage);
 
 export default router;
