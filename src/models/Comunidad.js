@@ -4,18 +4,15 @@ const { Schema } = mongoose;
 const CommunitySchema = new Schema({
     name: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     max_number_users: {
         type: Number,
-        required: true,
-        unique: true
+        required: true
     },
     type_community: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     users: [{
         type: Schema.Types.ObjectId,

@@ -3,6 +3,9 @@ import swaggerUi from 'swagger-ui-express';
 import specs from './swaggerConfig.js';
 import cors from 'cors';
 import {pruebaConexion, sequelize, mongoDB} from './db/database.js';
+import {communityModel} from './models/Comunidad.js';
+import mongoose from 'mongoose';
+
 import router from './routes/index.js';
 import './models/Users.js';
 
@@ -35,6 +38,17 @@ app.use(router);
 
 // Conexión a la base de datos
 async function main() {
+    /* sincronizar cambios mongo
+    const db = mongoose.connection;
+    db.once('open', async () => {
+    try {
+        await communityModel.syncIndexes();
+        console.log('Modelo sincronizado con éxito');
+    } catch (error) {
+        console.error('Error al sincronizar el modelo:', error);
+    }
+    });
+    */
     //await sequelize.sync({alter: true});
 }
 main();

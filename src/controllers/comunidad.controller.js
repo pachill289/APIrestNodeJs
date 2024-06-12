@@ -33,7 +33,7 @@ const insertarComunidad = async (req, res) => {
         res.status(201).json(newCommunity);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al crear la comunidad' });
+        res.status(500).json({ message: error.message });
     }
 }
 
